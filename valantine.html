@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#ff758c,#ff7eb3,#ff4d6d);
+            background-size:300% 300%;
+            animation:gradientMove 8s ease infinite;
+            overflow-x:hidden;
+            color:white;
+            position:relative;
+        }
+
+        @keyframes gradientMove{
+            0%{background-position:0% 50%;}
+            50%{background-position:100% 50%;}
+            100%{background-position:0% 50%;}
+        }
+
+        .heart{
+            position:absolute;
+            color:#fff;
+            font-size:20px;
+            animation:floatUp linear infinite;
+            opacity:0.8;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp{
+            0%{transform:translateY(100vh) scale(0.5);opacity:0;}
+            20%{opacity:1;}
+            100%{transform:translateY(-10vh) scale(1.2);opacity:0;}
+        }
+
+        .card{
+            background:rgba(255,255,255,0.2);
+            backdrop-filter:blur(20px);
+            padding:40px;
+            border-radius:25px;
+            text-align:center;
+            width:850px;
+            max-width:95%;
+            box-shadow:0 10px 40px rgba(0,0,0,0.3);
+            z-index:10;
+        }
+
+        .hidden{display:none;}
+
+        button{ border:none; cursor:pointer; transition:0.3s; }
+
+        .yes{
+            background:#ff1e56;
+            color:white;
+            padding:12px 25px;
+            border-radius:30px;
+            margin:10px;
+            font-weight:600;
+        }
+
+        .no{
+            background:white;
+            color:#ff1e56;
+            padding:12px 25px;
+            border-radius:30px;
+            position:absolute;
+            z-index: 100;
+        }
+
+        /* Kavithai Styling */
+        .kavithai-text {
+            font-size: 22px;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* --- GIFT GRID --- */
+        .gift-row{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:100px;
+            flex-wrap:wrap;
+            padding: 60px 20px;
+        }
+
+        .heart-btn{
+            position:relative;
+            width:90px;
+            height:90px;
+            background:#ff1e56;
+            transform:rotate(-45deg);
+            cursor:pointer;
+            transition:0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        .heart-btn:before, .heart-btn:after{
+            content:"";
+            position:absolute;
+            width:90px;
+            height:90px;
+            background:#ff1e56;
+            border-radius:50%;
+        }
+
+        .heart-btn:before{ top:-45px; left:0; }
+        .heart-btn:after{ left:45px; top:0; }
+
+        .heart-btn span{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%) rotate(45deg);
+            font-size:13px;
+            font-weight:600;
+            text-align:center;
+            width:100px;
+            color: white;
+            z-index: 5;
+        }
+
+        .heart-btn:hover{ transform:rotate(-45deg) scale(1.15); filter: brightness(1.1); }
+
+        .chat-bubble { background: #ff1e56; padding: 10px 15px; border-radius: 15px; margin: 5px 0; display: inline-block; font-size: 14px; }
+        
+        .gallery img{ width:120px; height:120px; object-fit:cover; border-radius:15px; margin:10px; cursor:pointer; }
+
+        .modal{
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.85); display:none; justify-content:center;
+            align-items:center; flex-direction:column; padding:20px; z-index:1000;
+        }
+    </style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+    <source src="music/oorum_blood_proposal.mp3" type="audio/mp3">
+</audio>
+
+<div class="card" id="proposal">
+    <h2>Will You Be My Valentine? 💖</h2>
+    <div style="position:relative; height: 100px; margin-top: 30px;">
+        <button class="yes" onclick="showKavithai()">YES ❤️</button>
+        <button class="no" id="noBtn">NO 🙈</button>
+    </div>
+</div>
+
+<div class="card hidden" id="kavithaiPage">
+    <div class="kavithai-text">
+        "Unplanned love.Unexpected bond<br>
+        Right Time.<br>
+        Right Person and that's you,<br>
+        ❤️நீயே என் பேராறுதல் ❤️ !" ❤️
+    </div>
+    <p>— LOVE YOU SATS EH ❤️🙈 —</p>
+    <button class="yes" onclick="showGifts()" style="margin-top: 20px;">Open My Gifts 🎁</button>
+</div>
+
+<div class="card hidden" id="gifts">
+    <div class="gift-title">Choose Your Gift 🎁</div>
+    <div class="gift-row">
+        <div class="heart-btn" onclick="openPhotos()"><span>📸<br>Moments</span></div>
+        <div class="heart-btn" onclick="openLetter()"><span>💌<br>Letter</span></div>
+        <div class="heart-btn" onclick="openChat()"><span>🤪<br>Crazy Chats</span></div>
+        <div class="heart-btn" onclick="openPlaces()"><span>📍<br>Places</span></div>
+        <div class="heart-btn" onclick="openImprove()"><span>📝<br>Improve</span></div>
+    </div>
+</div>
+
+<div class="card hidden" id="photoPage">
+    <h2>Moments With You 📸</h2>
+    <div class="gallery">
+        <img src="images/IMAGE3.JPG" onclick="openModal(this,'PROMISE')">
+        <img src="images/IMAGE8.JPG" onclick="openModal(this,'ENGAGEMENT')">
+        <img src="images/IMAGE7.JPG" onclick="openModal(this,'LOVE')">
+        <img src="images/IMAGE8.JPG" onclick="openModal(this,'ENGAGEMENT')">
+        <img src="images/IMAGE8.JPG" onclick="openModal(this,'ENGAGEMENT')">
+    </div>
+    <br><button class="yes" onclick="goBack()">Back to Gifts 🎁</button>
+</div>
+
+<div class="modal" id="imageModal">
+    <img id="modalImg" style="max-width:90%; border-radius:20px; border: 3px solid white;">
+    
+    <p id="modalText" style="margin: 15px 0; font-size: 20px; font-weight: 600; color: white;"></p>
+    
+    <button class="yes" onclick="closeModal()">Back to Gallery 📸</button>
+</div>
+
+<div class="card hidden" id="chatPage">
+    <h2>Our Crazy Chats 🤪</h2>
+    <div class="chat-bubble">"I'll love you even if you're a zombie!" 🧟‍♂️</div><br>
+    <button class="yes" onclick="goBack()">Back 🎁</button>
+</div>
+
+<div class="card hidden" id="placesPage">
+    <h2>Places We Liked 📍</h2>
+    <p>🌟 Our first date spot</p>
+    <p>🍿 The movie theater</p>
+    <button class="yes" onclick="goBack()">Back 🎁</button>
+</div>
+
+<div class="card hidden" id="letterPage">
+    <h2>My Love Letter 💌</h2>
+    <p>You are my world. ❤️</p>
+    <button class="yes" onclick="goBack()">Back 🎁</button>
+</div>
+
+<div class="card hidden" id="improvePage">
+    <h2>Improvement 📝</h2>
+    <textarea style="width:100%; height:100px; padding:10px;" placeholder="Tell me..."></textarea>
+    <br><button class="yes" onclick="goBack()">Back 🎁</button>
+</div>
+
+<div class="modal" id="imageModal">
+    <img id="modalImg" style="max-width:90%; border-radius:20px;">
+    <p id="modalText" style="margin-top:10px;"></p>
+    <button class="yes" onclick="closeModal()">Close ❤️</button>
+</div>
+
+<script>
+    const sections = ['proposal', 'kavithaiPage', 'gifts', 'photoPage', 'chatPage', 'placesPage', 'letterPage', 'improvePage'];
+    
+    function hideAll() {
+        sections.forEach(s => document.getElementById(s).classList.add('hidden'));
+    }
+
+    // Show Kavithai first when YES is clicked
+    function showKavithai() {
+        hideAll();
+        document.getElementById('kavithaiPage').classList.remove('hidden');
+        document.getElementById("bgMusic").play();
+    }
+
+    // Then show gifts
+    function showGifts(){ hideAll(); document.getElementById('gifts').classList.remove('hidden'); }
+    
+    function openPhotos(){ hideAll(); document.getElementById('photoPage').classList.remove('hidden'); }
+    function openChat(){ hideAll(); document.getElementById('chatPage').classList.remove('hidden'); }
+    function openPlaces(){ hideAll(); document.getElementById('placesPage').classList.remove('hidden'); }
+    function openLetter(){ hideAll(); document.getElementById('letterPage').classList.remove('hidden'); }
+    function openImprove(){ hideAll(); document.getElementById('improvePage').classList.remove('hidden'); }
+    function goBack(){ showGifts(); }
+
+    // No button logic
+    const noBtn=document.getElementById("noBtn");
+    noBtn.addEventListener("mouseover",()=>{
+        noBtn.style.left = Math.random() * 80 + "%";
+        noBtn.style.top = Math.random() * 80 + "%";
+    });
+
+    function openModal(img,text){
+        document.getElementById("imageModal").style.display="flex";
+        document.getElementById("modalImg").src=img.src;
+        document.getElementById("modalText").innerText=text;
+    }
+    function closeModal(){ document.getElementById("imageModal").style.display="none"; }
+
+    // Floating hearts
+    setInterval(() => {
+        const heart=document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.animationDuration=(3+Math.random()*5)+"s";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),8000);
+    }, 500);
+</script>
+
+</body>
+</html>
